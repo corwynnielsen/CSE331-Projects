@@ -11,15 +11,20 @@ class Solution:
         result = []
         stack = [s]
         visited[s] = True
+        parents[s] = 0
         result.append(s)
         while stack:
-            print(stack, "\n")
             node = stack.pop()
-            print(stack)
             for i in self.graph[node]:
                 if visited[i] == False:
-                    stack.append(i)
-                    result.append(i)
+                    if len(self.graph[i]) == 1 and node == 0:
+                        stack.append(i+1)
+                        result.append(i+1)
+                        parents[i+1] = node
+                        visited[i+1] = True
+                    else:
+                        stack.append(i)
+                        result.append(i)
                     parents[i] = node
                     visited[i] = True
                     break
@@ -27,5 +32,5 @@ class Solution:
                     result = result[result.index(i):result.index(node)]
                     result.append(node)
                     return result
-
+        
         return []
